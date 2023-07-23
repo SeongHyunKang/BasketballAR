@@ -1,46 +1,47 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class FadeInAndOut : MonoBehaviour
 {
-    public SpriteRenderer[] sprites;
+    public Image[] images;
     public float fadeInTime = 2.0f;
     public float displayTime = 3.0f;
     public float fadeOutTime = 2.0f;
 
     private void Start()
     {
-        foreach (SpriteRenderer sprite in sprites)
+        foreach (Image image in images)
         {
-            StartCoroutine(FadeInOutRoutine(sprite));
+            StartCoroutine(FadeInOutRoutine(image));
         }
     }
 
-    private IEnumerator FadeInOutRoutine(SpriteRenderer sprite)
+    private IEnumerator FadeInOutRoutine(Image image)
     {
-        Color color = sprite.color;
+        Color color = image.color;
         color.a = 0;
-        sprite.color = color;
+        image.color = color;
         float elapsedTime = 0;
         while (elapsedTime < fadeInTime)
         {
             color.a = Mathf.Lerp(0, 1, elapsedTime / fadeInTime);
-            sprite.color = color;
+            image.color = color;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         color.a = 1;
-        sprite.color = color;
+        image.color = color;
         yield return new WaitForSeconds(displayTime);
         elapsedTime = 0;
         while (elapsedTime < fadeOutTime)
         {
             color.a = Mathf.Lerp(1, 0, elapsedTime / fadeOutTime);
-            sprite.color = color;
+            image.color = color;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         color.a = 0;
-        sprite.color = color;
+        image.color = color;
     }
 }
