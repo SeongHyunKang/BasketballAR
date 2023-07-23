@@ -3,51 +3,44 @@ using System.Collections;
 
 public class FadeInAndOut : MonoBehaviour
 {
-    public GameObject spritePrefab;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer[] sprites;
     public float fadeInTime = 2.0f;
     public float displayTime = 3.0f;
     public float fadeOutTime = 2.0f;
 
-    private void OnEnable()
+    private void Start()
     {
-        if (spritePrefab != null)
+        foreach (SpriteRenderer sprite in sprites)
         {
-            GameObject spriteObject = Instantiate(spritePrefab, transform.position, Quaternion.identity);
-            spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
-            StartCoroutine(FadeInOutRoutine());
+            StartCoroutine(FadeInOutRoutine(sprite));
         }
     }
 
-    private IEnumerator FadeInOutRoutine()
+    private IEnumerator FadeInOutRoutine(SpriteRenderer sprite)
     {
-        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
+        Color color = sprite.color;
+        color.a = 0;
+        sprite.color = color;
         float elapsedTime = 0;
-
         while (elapsedTime < fadeInTime)
         {
-            float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeInTime);
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            color.a = Mathf.Lerp(0, 1, elapsedTime / fadeInTime);
+            sprite.color = color;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1);
-
+        color.a = 1;
+        sprite.color = color;
         yield return new WaitForSeconds(displayTime);
         elapsedTime = 0;
-
         while (elapsedTime < fadeOutTime)
         {
-            float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeOutTime);
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            color.a = Mathf.Lerp(1, 0, elapsedTime / fadeOutTime);
+            sprite.color = color;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
+        color.a = 0;
+        sprite.color = color;
     }
 }
-
-
-
