@@ -77,6 +77,12 @@ public class BallControl : MonoBehaviour
         {
             ResetBall();
         }
+
+        if (Vector3.Distance(transform.position, XRCam.transform.position) > 20f)
+        {
+            ResetBall();
+            return;
+        }
     }
 
     public void ResetBall()
