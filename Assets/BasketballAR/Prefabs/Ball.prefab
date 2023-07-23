@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1434e856a24ea47918e1c6a43105d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ThrowForce: 10
+  m_ThrowForce: 100
   m_ThrowDirectionX: 0.17
   m_ThrowDirectionY: 0.67
   m_BallCameraOffset: {x: 0, y: -0.4, z: 1}
